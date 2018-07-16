@@ -1,0 +1,67 @@
+<div class="container">
+        Counter in User Comp : {{ dataService.counter }}
+        <button (click)="increase()">Increase</button>
+</div>
+
+<div class="container">
+<input type="text" (keyup)="onKeyup(childCtrl.value)" #childCtrl>
+</div>
+
+<div class="container">
+<h1>Welcome to Angular {{title}}</h1>
+</div>
+
+<div class="container">
+<ng-content select="header"></ng-content>
+</div>
+
+<div class="container">
+<ng-content select="#section"></ng-content>
+</div>
+
+<div class="container">
+<ul class="list-unstyled">
+<li class="well" *ngFor="let user of users; first as isFirst; last as isLast; index as i; even as isEven; odd as isOdd;">
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2">
+            #{{i}} {{isFirst}} {{isEven}}
+            <img [src]="user.image">
+            <button class="btn btn-info btn-sm" (click)="moreInfo(user)">
+                More Info
+            </button>
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10">
+            <h1 apphighlight [myColor]="myColor"> {{user.firstName | uppercase }} {{ user.lastName | uppercase }}</h1>
+            <!-- <ng-template [ngIf]="user.isWorking">
+                <p>
+
+                </p>
+            </ng-template> -->
+            <!-- <ng-template [appUnless]="user.isWorking">
+                Unless Works!
+            </ng-template> -->
+            <p *appUnless="!user.isWorking">
+                Unless Works!
+            </p>
+            <p *ngIf="user.isWorking; else ElseTemplate">Income : {{user.income | currency : 'INR'}} </p>
+            <p [ngClass]="{'myBorder' : isEven, 'myText' : isOdd}">Date of Birth : <span [innerHTML]="user.dob | date : 'MM/dd/yyyy'"></span> </p>
+            <!-- <p [ngClass]="myClasses">Date of Birth : <span [innerHTML]="user.dob"></span> </p> -->
+            <em class="pull-right">
+                Total Votes : {{ user.votes }}
+                <input type="text" [value]="user.votes"
+                    (change)="user.votes = $event.target.value">
+                <input type="text" [(ngModel)]="user.votes">
+                
+            </em>
+        </div>
+    </div>
+    <ng-template #ElseTemplate>
+        {{user.firstName }} is not working now!
+    </ng-template>
+</li>
+</ul>
+</div>
+
+<div class="container">
+<ng-content select="footer"></ng-content>
+</div>
